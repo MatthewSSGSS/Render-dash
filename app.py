@@ -14,9 +14,9 @@ server = app.server
 # Cargar y preparar datos con manejo de errores
 try:
     df = pd.read_csv("datos_guajira.csv")
-    print("✅ CSV cargado exitosamente!")
-    print(f"📊 Columnas: {df.columns.tolist()}")
-    print(f"📈 Forma del dataset: {df.shape}")
+    print("CSV cargado exitosamente!")
+    print(f"Columnas: {df.columns.tolist()}")
+    print(f"Forma del dataset: {df.shape}")
     
     # Limpiar y preparar datos 
     df["Código municipio"] = df["Código municipio"].astype(str).str.zfill(5)
@@ -24,7 +24,7 @@ try:
     df['Área (ha)'] = df['Área (ha)'].astype(str).str.replace(',', '').astype(float)
     
 except Exception as e:
-    print(f"❌ Error cargando CSV: {e}")
+    print(f"Error cargando CSV: {e}")
     # Datos de ejemplo como fallback
     df = pd.DataFrame({
         'Municipio': ['Riohacha', 'Maicao', 'Uribia', 'Manaure', 'Albania'],
@@ -33,7 +33,7 @@ except Exception as e:
         'Código municipio': ['44001', '44002', '44003', '44004', '44005'],
         'Código departamento': ['44', '44', '44', '44', '44']
     })
-    print("🔄 Usando datos de ejemplo")
+    print("Usando datos de ejemplo")
 
 # Crear datos simplificados para el mapa 
 def crear_datos_mapa():
@@ -110,25 +110,25 @@ app.layout = html.Div([
     
     # Mapa Interactivo
     html.Div([
-        html.H3("🗺️ Mapa Interactivo de La Guajira"),
+        html.H3("Mapa Interactivo de La Guajira"),
         dcc.Graph(id='mapa-interactivo')
     ], style={'marginBottom': '30px', 'padding': '15px', 'backgroundColor': 'white', 'borderRadius': '8px', 'boxShadow': '0 2px 4px rgba(0,0,0,0.1)'}),
     
     # Gráfico de áreas
     html.Div([
-        html.H3("📊 Áreas por Tipo de Aptitud"),
+        html.H3("Áreas por Tipo de Aptitud"),
         dcc.Graph(id='grafico-areas')
     ], style={'marginBottom': '30px', 'padding': '15px', 'backgroundColor': 'white', 'borderRadius': '8px', 'boxShadow': '0 2px 4px rgba(0,0,0,0.1)'}),
     
     # Gráfico de distribución
     html.Div([
-        html.H3("🥧 Distribución por Aptitud"),
+        html.H3("Distribución por Aptitud"),
         dcc.Graph(id='grafico-torta')
     ], style={'marginBottom': '30px', 'padding': '15px', 'backgroundColor': 'white', 'borderRadius': '8px', 'boxShadow': '0 2px 4px rgba(0,0,0,0.1)'}),
     
     # Tabla de datos
     html.Div([
-        html.H3("📋 Datos por Municipio"),
+        html.H3("Datos por Municipio"),
         html.Div(id='tabla-datos')
     ], style={'padding': '15px', 'backgroundColor': 'white', 'borderRadius': '8px', 'boxShadow': '0 2px 4px rgba(0,0,0,0.1)'})
     
@@ -144,7 +144,7 @@ app.layout = html.Div([
 )
 def actualizar_dashboard(filtro):
     try:
-        print(f"🔄 Callback ejecutado - Filtro: {filtro}")
+        print(f"Callback ejecutado - Filtro: {filtro}")
         
         # Filtrar datos
         if filtro == 'all':
@@ -154,7 +154,7 @@ def actualizar_dashboard(filtro):
             datos_filtrados = df_mapa[df_mapa['Aptitud'] == filtro]
             datos_originales = df[df['Aptitud'] == filtro]
         
-        print(f"📈 Datos filtrados: {len(datos_filtrados)} filas")
+        print(f"Datos filtrados: {len(datos_filtrados)} filas")
         
         # 1. MAPA INTERACTIVO
         if not datos_filtrados.empty:
@@ -230,11 +230,11 @@ def actualizar_dashboard(filtro):
         else:
             tabla = html.P("No hay datos para mostrar con el filtro seleccionado")
         
-        print("✅ Callback completado exitosamente")
+        print("Callback completado exitosamente")
         return fig_mapa, fig_areas, fig_torta, tabla
         
     except Exception as e:
-        print(f"❌ Error en callback: {e}")
+        print(f"Error en callback: {e}")
         # Figuras de error como fallback
         fig_error = px.scatter(title=f"Error: {str(e)}")
         return fig_error, fig_error, fig_error, html.P(f"Error: {str(e)}")
